@@ -1,4 +1,4 @@
-#import os
+import os
 
 from keras.models import *
 from keras.layers import *
@@ -6,26 +6,27 @@ from keras.preprocessing import image
 from keras.utils import layer_utils
 from keras.utils.data_utils import get_file
 
-
+from keras import backend as K
 
 
 
 
 
 # define the path to load the VGG16 weights
-# file_path = os.path.dirname( os.path.abspath(__file__) )
-# VGG16_Weights_path = file_path + "/data/vgg16_weights_tf_dim_ordering_tf_kernels.h5"
-# VGG19_Weights_path = file_path + "/data/vgg19_weights_tf_dim_ordering_tf_kernels.h5"
+file_path = os.path.dirname( os.path.abspath(__file__) )
+VGG16_Weights_path = file_path + "/vgg16_weights_tf_dim_ordering_tf_kernels.h5"
+# VGG19_Weights_path = file_path + "/vgg19_weights_tf_dim_ordering_tf_kernels.h5"
 
 
-VGG16_WEIGHTS_PATH = 'https://github.com/fchollet/deep-learning-models/releases/tag/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels.h5'
-VGG19_WEIGHTS_PATH = 'https://github.com/fchollet/deep-learning-models/releases/tag/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
+#VGG16_WEIGHTS_PATH = 'https://github.com/fchollet/deep-learning-models/releases/tag/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels.h5'
+#VGG19_WEIGHTS_PATH = 'https://github.com/fchollet/deep-learning-models/releases/tag/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
 
 
 
-def VGG16(classes=1000, input_height=224, input_width=224, fc_end_layer = 'fc1'):
+def VGG16(input_height=224, input_width=224, fc_end_layer = 'fc1'):
     
     
+    min_size = 32
     
     assert (input_height > min_size or input_width > min_size), 'The input images are smaller than the minimum size' 
     
@@ -63,21 +64,13 @@ def VGG16(classes=1000, input_height=224, input_width=224, fc_end_layer = 'fc1')
     x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv3')(x)
     x = MaxPooling2D((2, 2), strides=(2, 2), name='block5_pool')(x)
 
-    
-    
-    # Classification block
-    x = layers.Flatten(name='flatten')(x)
-    x = layers.Dense(4096, activation='relu', name='fc1')(x)
-    x = layers.Dense(4096, activation='relu', name='fc2')(x)
-    
-    
-    
-    x = layers.Flatten(name='flatten')(x)
-    if fc_end_layer = 'fc1':        
-        x = layers.Dense(4096, activation='relu', name='fc1')(x)
+   
+    x = Flatten(name='flatten')(x)
+    if fc_end_layer == 'fc1':        
+        x = Dense(4096, activation='relu', name='fc1')(x)
     else:
-        x = layers.Dense(4096, activation='relu', name='fc1')(x)
-        x = layers.Dense(4096, activation='relu', name='fc2')(x)
+        x = Dense(4096, activation='relu', name='fc1')(x)
+        x = Dense(4096, activation='relu', name='fc2')(x)
         
         
    
@@ -86,17 +79,16 @@ def VGG16(classes=1000, input_height=224, input_width=224, fc_end_layer = 'fc1')
     model = Model(img_input, x, name='vgg16')
 
     
-    VGG16_Weights_path = get_file('vgg16_weights_tf_dim_ordering_tf_kernels.h5', VGG16_WEIGHTS_PATH, cache_subdir='models')
+    # VGG16_Weights_path = get_file('vgg16_weights_tf_dim_ordering_tf_kernels.h5', VGG16_WEIGHTS_PATH, cache_subdir='models')
     model.load_weights(VGG16_Weights_path, by_name=True)
     
-    print('The VGG16 model is built')
-    
+
     
     return model
     
-def VGG19(classes=1000, input_height=224, input_width=224, fc_end_layer = 'fc1'):
+def VGG19(input_height=224, input_width=224, fc_end_layer = 'fc1'):
     
-    
+    min_size = 32
     
     assert (input_height > min_size or input_width > min_size), 'The input images are smaller than the minimum size' 
     
@@ -136,22 +128,15 @@ def VGG19(classes=1000, input_height=224, input_width=224, fc_end_layer = 'fc1')
     x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv3')(x)
     x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv4')(x)
     x = MaxPooling2D((2, 2), strides=(2, 2), name='block5_pool')(x)
-
-    
-    
-    # Classification block
-    x = layers.Flatten(name='flatten')(x)
-    x = layers.Dense(4096, activation='relu', name='fc1')(x)
-    x = layers.Dense(4096, activation='relu', name='fc2')(x)
     
     
     
-    x = layers.Flatten(name='flatten')(x)
-    if fc_end_layer = 'fc1':        
-        x = layers.Dense(4096, activation='relu', name='fc1')(x)
+    x = Flatten(name='flatten')(x)
+    if fc_end_layer == 'fc1':        
+        x = Dense(4096, activation='relu', name='fc1')(x)
     else:
-        x = layers.Dense(4096, activation='relu', name='fc1')(x)
-        x = layers.Dense(4096, activation='relu', name='fc2')(x)
+        x = Dense(4096, activation='relu', name='fc1')(x)
+        x = Dense(4096, activation='relu', name='fc2')(x)
         
         
    
@@ -159,7 +144,7 @@ def VGG19(classes=1000, input_height=224, input_width=224, fc_end_layer = 'fc1')
     # Create model.
     model = Model(img_input, x, name='vgg19')
     
-    VGG19_Weights_path = get_file('vgg19_weights_tf_dim_ordering_tf_kernels.h5', VGG19_WEIGHTS_PATH, cache_subdir='models')
+    # VGG19_Weights_path = get_file('vgg19_weights_tf_dim_ordering_tf_kernels.h5', VGG19_WEIGHTS_PATH, cache_subdir='models')
 
     model.load_weights(VGG19_Weights_path, by_name=True)
     
