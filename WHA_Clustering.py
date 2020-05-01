@@ -20,7 +20,6 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
-from Model import *
 
 
 model = vgg16.VGG16(include_top=False,weights='imagenet',pooling = 'avg')
