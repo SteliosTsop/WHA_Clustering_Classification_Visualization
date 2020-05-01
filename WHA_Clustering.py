@@ -9,7 +9,6 @@ from keras.preprocessing import image
 from keras.applications import vgg16, inception_v3, resnet50
 from keras.applications.vgg16 import preprocess_input
 
-from keras import backend as K
 import cv2
 
 from scipy.stats import mode
