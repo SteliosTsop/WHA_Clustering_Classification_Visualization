@@ -1,3 +1,6 @@
+#    The routine was developed by Robert Woodward (https://github.com/riwoodward) and it can be found at: 
+#    https://github.com/scipy/scipy-cookbook/blob/master/ipython/Matplotlib_ColormapTransformations.ipynb
+
 import matplotlib
 import numpy as np
 
@@ -7,6 +10,7 @@ def cmap_map(function, cmap):
     """ Applies function (which should operate on vectors of shape 3: [r, g, b]), on colormap cmap.
     This routine will break any discontinuous points in a colormap.
     """
+    
     cdict = cmap._segmentdata
     step_dict = {}
     # Firt get the list of points where the segments start or end
