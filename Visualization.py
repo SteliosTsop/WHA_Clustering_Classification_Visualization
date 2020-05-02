@@ -65,7 +65,6 @@ for item in dirs:
 # ---------------------------  VISUALIZATION OF ACTIVATION MAPS ---------------------------------------------------------
 
 
-from keras import models
 
 pca = PCA(n_components=50)
 X_pca = pca.fit_transform(features)
@@ -101,7 +100,6 @@ for item in dirs:
     last_conv_layer_activation = activations[-2]
     heatmap = np.zeros(last_conv_layer_activation[0, :, :, 0].shape,dtype = np.float32)
     for i in range(n_major_features):
-        # heatmap += last_conv_layer_activation[0,:,:,principal_features[i]]*e_vectors[0,principal_features[i]]
         heatmap += last_conv_layer_activation[0, :, :, i]*e_vectors[PC_comp,i]
         
     heatmap = np.maximum(heatmap, 0)
@@ -115,8 +113,8 @@ for item in dirs:
         
     # Apply the heatmap to the original image
     heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
-    superimposed_img = heatmap * 0.4 + img
+    out_img = heatmap * 0.4 + img
     # save it
     OUT_DIR =  os.path.join(ROOT_DIR, 'Your_results_Dir')
     out_file = os.path.join(OUT_DIR,item)
-    cv2.imwrite(out_file, superimposed_img)
+    cv2.imwrite(out_file, out_img)
