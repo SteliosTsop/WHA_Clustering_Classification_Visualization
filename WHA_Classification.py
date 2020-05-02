@@ -164,6 +164,11 @@ for p in range(10, 50, 5):
         
     X_tsne_train_c = X_tsne_train[cor_idx]  
     
+    # -------------------------------------------------------------------------------------------------------------------------
+    #   K Nearest Neighbors Classifier
+    #--------------------------------------------------------------------------------------------------------------------------
+    
+        
     kmeans_neigh = KNeighborsClassifier(n_neighbors=neighbors,weights=weight_option)
     kmeans_neigh.fit(X_tsne_train_c, cor_labels)
  
