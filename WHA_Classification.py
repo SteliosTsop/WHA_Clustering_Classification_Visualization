@@ -98,3 +98,103 @@ for item in test_dirs:
             i+=1            
 
             
+# K nearest neighbors parameters
+neighbors = 15
+weight_option = 'uniform' # 'distance'
+#K means parameteres
+clusters = 5
+
+
+# Insert the extracted features to PCA, in order to reduce dimensions to 50 or 100
+X_pca_50 = PCA(n_components=50).fit_transform(features)
+
+target_array = np.asarray(targets,dtype=np.int8)
+
+
+# For 5 classes
+labels = [ 'WHA90 1xx', 'WHA92 2xx', 'WHA95 3xx', 'WHA97 4xx', 'WHA99 5xx']
+colors = [0, 1, 2, 3, 4]
+
+
+
+for p in range(10, 50, 5):
+    
+    print('\n')
+    print('Perplexity = {}'.format(p))
+    print('\n')
+    
+    # Take the reduced features by PCA and insert them into t-sne
+    X_tsne= TSNE(n_components=2, perplexity=p, n_iter=4000, verbose=0).fit_transform(X_pca_50)
+    
+    # separate the train images and their ground truth labels
+    X_tsne_train = X_tsne[:train_images]
+    target_train = target_array[:train_images] 
+    
+    
+    # separate the test images and their ground truth labels
+    X_tsne_test = X_tsne[train_images:]
+    target_test = target_array[train_images:]
+    
+    
+    # -------------------------------------------------------------------------------------------------------------------------
+    #   Kmeans labeling
+    #--------------------------------------------------------------------------------------------------------------------------
+    
+    kmeans = KMeans(n_clusters=clusters, init = 'k-means++', n_init = 10, max_iter = 1000)
+    kmeans.fit(X_tsne_train)
+    labs = kmeans.labels_
+
+
+    correspond_labels = np.zeros(labs.shape)
+        
+    correspond_labels[labs==0] = np.argmax(np.bincount(target_train[labs==0]))    
+    correspond_labels[labs==1] = np.argmax(np.bincount(target_train[labs==1]))
+    correspond_labels[labs==2] = np.argmax(np.bincount(target_train[labs==2]))
+    correspond_labels[labs==3] = np.argmax(np.bincount(target_train[labs==3]))
+    correspond_labels[labs==4] = np.argmax(np.bincount(target_train[labs==4])) 
+    
+    
+    # find the errors
+    l = [k if t==k else max(target_train)+1 for t,k in zip(target_train, correspond_labels)]
+    l = np.asarray(l,dtype=np.int8)
+
+    # correct indices
+    cor_idx = l<=max(target_train)    
+    cor_labels = l[cor_idx]
+        
+    X_tsne_train_c = X_tsne_train[cor_idx]  
+    
+    kmeans_neigh = KNeighborsClassifier(n_neighbors=neighbors,weights=weight_option)
+    kmeans_neigh.fit(X_tsne_train_c, cor_labels)
+ 
+    # Plot the decision boundary. For that, we will assign a color to each
+    # point in the mesh [x_min, x_max]x[y_min, y_max].
+    x_min, x_max = X_tsne_train_c[:, 0].min() - 1, X_tsne_train_c[:, 0].max() + 1
+    y_min, y_max = X_tsne_train_c[:, 1].min() - 1, X_tsne_train_c[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.2),
+                         np.arange(y_min, y_max, 0.2))
+    xy = np.c_[xx.ravel(), yy.ravel()]
+    # Predict the label of each mexh point with K-nearest neighbors
+    knn_labels = kmeans_neigh.predict(xy)
+    
+    # Put the result into a color plot
+    zz = knn_labels.reshape(xx.shape)
+    
+    light_brg = cmap_map(lambda x: x/2 + 0.5, matplotlib.cm.brg)
+    dark_brg = cmap_map(lambda x: x*0.75, matplotlib.cm.brg)
+    
+    # Plot the result with scatter
+    fig1 = plt.figure(figsize=(10, 10))
+    ax1 = plt.axes(frameon=False)
+    plt.setp(ax1, xticks=(), yticks=())
+    plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9,
+                    wspace=0.0, hspace=0.0)
+    mp1 = plt.pcolormesh(xx, yy, zz, cmap=light_brg )
+    # sc = plt.scatter(X_tsne_test[:, 0], X_tsne_test[:, 1], c='k', marker="*")
+    handles_1 = [plt.plot([],color=mp1.get_cmap()(mp1.norm(c)),ls="", marker="o")[0] for c in colors ]    
+    legend_1 = ax1.legend(handles_1, labels, loc="lower right")
+    ax1.add_artist(legend_1)
+
+    # save the figure with the specific perplexity
+    output_file1 =  os.path.join(ROOT_DIR, 'Your_Result_Dir\\perplexity_' + str(p) + '_knn.png')
+    plt.savefig(output_file1)
