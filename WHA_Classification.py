@@ -22,6 +22,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 
+from Utils import cmap_map
+
 
 model = vgg16.VGG16(include_top=False,weights='imagenet',pooling = 'avg')
 
