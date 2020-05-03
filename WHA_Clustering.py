@@ -10,9 +10,6 @@ from keras.applications import vgg16
 from keras.applications.vgg16 import preprocess_input
 
 import cv2
-
-from scipy.stats import mode
-
 import itertools
 
 from sklearn.metrics import accuracy_score, confusion_matrix
