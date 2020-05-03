@@ -10,3 +10,5 @@ The entire WHA dataset and the corresponding Activation Maps are published in Ma
 
 ## Clustering Data Pipeline
 
+The main structure of the Clustering Data Pipeline is composed by 4 consecutive parts, where the output of each part is the input of the next.
+
