@@ -13,7 +13,7 @@ import cv2
 
 from sklearn.decomposition import PCA
 
-
+# Initialize keras model for VGG16
 model = vgg16.VGG16(include_top=False,weights='imagenet',pooling = 'avg')
 
 # Create the paths for inserting images
@@ -32,7 +32,7 @@ target = np.empty(n_images)
 
 imgs_per_class = 162
 
-# label images according to the tungsten composition
+# label images according 5 categories of tungsten composition
 target[:imgs_per_class] = 0
 target[imgs_per_class:2*imgs_per_class] = 1
 target[2*imgs_per_class:3*imgs_per_class] = 2
@@ -49,6 +49,7 @@ shuffle(combined)
 
 dirs, targets = zip(*combined)
 
+# Load images and extract features with VGG16
 i = 0
 for item in dirs:
         img_path = os.path.join(input_dir,item)
@@ -65,10 +66,11 @@ for item in dirs:
 # ---------------------------  VISUALIZATION OF ACTIVATION MAPS ---------------------------------------------------------
 
 
-
+# PCA dimensionality reduction on the features extracted by VGG16
 pca = PCA(n_components=50)
 X_pca = pca.fit_transform(features)
 
+# Compute the eigenvalues and eigenvectors of the Principal Components
 PC_comp = 1 
 
 e_values = pca.explained_variance_ # These are the eigenvalues of the principal components.
@@ -85,7 +87,7 @@ n_major_features = e_vectors[PC_comp,:].shape[0]
 layer_outputs = [layer.output for layer in model.layers[15:]]
 activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
 
-
+# Load the images and compute an Activation Heatmap for each input image
 for item in dirs:
     # load image
     img_path = os.path.join(input_dir,item)
@@ -114,7 +116,7 @@ for item in dirs:
     # Apply the heatmap to the original image
     heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
     out_img = heatmap * 0.4 + img
-    # save it
+    # Save heatmap
     OUT_DIR =  os.path.join(ROOT_DIR, 'Your_results_Dir')
     out_file = os.path.join(OUT_DIR,item)
     cv2.imwrite(out_file, out_img)
