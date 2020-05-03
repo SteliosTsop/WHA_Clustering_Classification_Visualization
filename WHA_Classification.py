@@ -12,8 +12,6 @@ from keras.applications import vgg16
 
 import cv2
 
-from scipy.stats import mode
-
 import itertools
 
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -24,7 +22,7 @@ from sklearn.decomposition import PCA
 
 from Utils import cmap_map
 
-
+# Initialize keras model for VGG16 network
 model = vgg16.VGG16(include_top=False,weights='imagenet',pooling = 'avg')
 
 # Create the paths for inserting the train images
@@ -54,13 +52,14 @@ target = np.empty(n_images)
 train_imgs_per_class = 75
 test_imgs_per_class = 6
 
-# label each category
+# Label images according to 5 categories of tungsten composition
+# First, populate the target array with the labels of the train images 
 target[:train_imgs_per_class] = 0
 target[train_imgs_per_class:3*train_imgs_per_class] = 1
 target[3*train_imgs_per_class:5*train_imgs_per_class] = 2
 target[5*train_imgs_per_class:7*train_imgs_per_class] = 3
 target[7*train_imgs_per_class:train_images] = 4
-
+# Next, populate the target array with the labels of the test images 
 target[train_images:train_images + test_imgs_per_class] = 0
 target[train_images + test_imgs_per_class:train_images + 3*test_imgs_per_class] = 1
 target[train_images + 3*test_imgs_per_class:train_images + 5*test_imgs_per_class] = 2
@@ -68,12 +67,10 @@ target[train_images + 5*test_imgs_per_class:train_images + 7*test_imgs_per_class
 target[train_images + 7*test_imgs_per_class:train_images + test_images] = 4
 
 
-
-
 # convert them into a list
 targets = list(target)
 
-
+# Load images and extrcat features with VGG16 for train and test images
 i = 0
 for item in train_dirs:
         img_path = os.path.join(train_dir,item) 
@@ -116,7 +113,7 @@ labels = [ 'WHA90 1xx', 'WHA92 2xx', 'WHA95 3xx', 'WHA97 4xx', 'WHA99 5xx']
 colors = [0, 1, 2, 3, 4]
 
 
-
+# Implement t-SNE dimensionality reduction for different values of perplexity
 for p in range(10, 50, 5):
     
     print('\n')
@@ -126,12 +123,12 @@ for p in range(10, 50, 5):
     # Take the reduced features by PCA and insert them into t-sne
     X_tsne= TSNE(n_components=2, perplexity=p, n_iter=4000, verbose=0).fit_transform(X_pca_50)
     
-    # separate the train images and their ground truth labels
+    # Separate the train images and their ground truth labels
     X_tsne_train = X_tsne[:train_images]
     target_train = target_array[:train_images] 
     
     
-    # separate the test images and their ground truth labels
+    # Separate the test images and their ground truth labels
     X_tsne_test = X_tsne[train_images:]
     target_test = target_array[train_images:]
     
