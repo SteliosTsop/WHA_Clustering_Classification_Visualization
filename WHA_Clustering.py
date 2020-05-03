@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from keras.preprocessing import image
-from keras.applications import vgg16, inception_v3, resnet50
+from keras.applications import vgg16
 from keras.applications.vgg16 import preprocess_input
 
 import cv2
