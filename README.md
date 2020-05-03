@@ -12,7 +12,7 @@ The entire WHA dataset and the corresponding Activation Maps are published in Ma
 
 The main structure of the Clustering Data Pipeline is composed by 4 consecutive parts, where the output of each part is the input of the next (see the schematic flowchart of the pipeline in the figure below). 
 
-<img src="">
+<img src="Images/classification_pipeline_2.JPG">
 
 More specifically, the functionality of each stage is defined as follows:
 
