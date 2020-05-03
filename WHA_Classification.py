@@ -11,7 +11,6 @@ from keras.preprocessing import image
 from keras.applications import vgg16
 
 import cv2
-
 import itertools
 
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -143,7 +142,7 @@ for p in range(10, 50, 5):
 
 
     correspond_labels = np.zeros(labs.shape)
-        
+    # Convert the k-Means labeling into the same colormap labeling as the ground truth labeling    
     correspond_labels[labs==0] = np.argmax(np.bincount(target_train[labs==0]))    
     correspond_labels[labs==1] = np.argmax(np.bincount(target_train[labs==1]))
     correspond_labels[labs==2] = np.argmax(np.bincount(target_train[labs==2]))
