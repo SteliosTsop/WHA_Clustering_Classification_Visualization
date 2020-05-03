@@ -20,7 +20,7 @@ from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 
-
+# Initialize keras model for VGG16 architecture
 model = vgg16.VGG16(include_top=False,weights='imagenet',pooling = 'avg')
 
 # Create the paths for inserting images
@@ -45,8 +45,6 @@ target[3*imgs_per_class:4*imgs_per_class] = 3
 target[4*imgs_per_class:] = 4
 
 
-
-
 # convert them into a list
 targets = list(target)
 
@@ -56,6 +54,7 @@ shuffle(combined)
 
 dirs, targets = zip(*combined)
 
+# Load images and extract features with VGG16
 i = 0
 for item in dirs:
         img_path = os.path.join(input_dir,item) 
@@ -68,7 +67,7 @@ for item in dirs:
             i+=1
                      
             
-# Insert the extracted features to PCA, in order to reduce dimensions to 50 or 100
+# Insert the extracted features to PCA, in order to reduce dimensions to 50
 X_pca_50 = PCA(n_components=50).fit_transform(features)
 
 labels = ['WHA90 1xx', 'WHA92 2xx', 'WHA95 3xx', 'WHA97 4xx', 'WHA99 5xx']
@@ -97,7 +96,6 @@ for p in range(5, 60, 5):
     plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9,
                     wspace=0.0, hspace=0.0)
     scatter1 = plt.scatter(X_tsne[:, 0], X_tsne[:, 1], c=targets, cmap="Spectral")
-    #legend = ax.legend(*scatter.legend_elements(), loc="upper right", title="")
     handles1 = [plt.plot([],color=scatter1.get_cmap()(scatter1.norm(c)),ls="", marker="o")[0] for c in colors ]    
     legend1 = ax1.legend(handles1, labels, loc="lower right")
     ax1.add_artist(legend1)
@@ -121,8 +119,6 @@ for p in range(5, 60, 5):
     labs = kmeans.labels_
     target_array = np.asarray(targets,dtype=np.int8)
     correspond_labels = np.zeros(labs.shape)
-
-    correspond_labels = np.zeros(labs.shape)
     
     # Convert the k-Means labeling into the same colormap labeling as the ground truth labeling
     correspond_labels[labs==0] = np.argmax(np.bincount(target_array[labs==0]))    
@@ -139,8 +135,6 @@ for p in range(5, 60, 5):
     cor_idx = l<=max(targets)
     error_idx = l==max(targets)+1
 
-
-
     list_labels = l[cor_idx]
     error_labels = l[error_idx]
   
@@ -148,15 +142,12 @@ for p in range(5, 60, 5):
     #  Plot kmeans labeling
     # -------------------------------------------------------------------------------------------------
     
-
     # Plot the result with scatter
     fig2 = plt.figure(figsize=(10, 10))
     ax2 = plt.axes(frameon=False)
     plt.setp(ax2, xticks=(), yticks=())
-    plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9,
-                    wspace=0.0, hspace=0.0)
+    plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9, wspace=0.0, hspace=0.0)
     scatter2 = plt.scatter(X_tsne[:, 0], X_tsne[:, 1], c=labs, cmap="Spectral")
-    #legend = ax.legend(*scatter.legend_elements(), loc="upper right", title="")
     handles2 = [plt.plot([],color=scatter2.get_cmap()(scatter2.norm(c)),ls="", marker="o")[0] for c in colors ]    
     legend2 = ax2.legend(handles2, labels, loc="lower right")
     ax2.add_artist(legend2)
@@ -170,10 +161,8 @@ for p in range(5, 60, 5):
     figx = plt.figure(figsize=(10, 10))
     axx = plt.axes(frameon=False)
     plt.setp(axx, xticks=(), yticks=())
-    plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9,
-                    wspace=0.0, hspace=0.0)
+    plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9, wspace=0.0, hspace=0.0)
     scatterx = plt.scatter(X_tsne[:, 0], X_tsne[:, 1], c=correspond_labels, cmap="Spectral")
-    #legend = ax.legend(*scatter.legend_elements(), loc="upper right", title="")
     handlesx = [plt.plot([],color=scatterx.get_cmap()(scatterx.norm(c)),ls="", marker="o")[0] for c in colors ]    
     legendx = axx.legend(handlesx, labels, loc="lower right")
     axx.add_artist(legendx)
@@ -182,8 +171,7 @@ for p in range(5, 60, 5):
     output_filex =  os.path.join(ROOT_DIR, 'Your_results_Dir\\perp_' + str(p) + '_kmeans_labeled.png')
     
     plt.savefig(output_filex)
-    
-   
+       
     
     # -------------------------------------------------------------------------------------------------
     #  Plot kmeans labeling with erros
@@ -193,8 +181,7 @@ for p in range(5, 60, 5):
     fig3 = plt.figure(figsize=(10, 10))
     ax3 = plt.axes(frameon=False)
     plt.setp(ax3, xticks=(), yticks=())
-    plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9,
-                    wspace=0.0, hspace=0.0)
+    plt.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=0.9, wspace=0.0, hspace=0.0)
     sc1 = plt.scatter(X_tsne[cor_idx, 0], X_tsne[cor_idx, 1], c=list_labels, cmap="Spectral")
     sc2 = plt.scatter(X_tsne[error_idx, 0], X_tsne[error_idx, 1], c="k", marker = "x" )
     handles3 = [plt.plot([],color=sc1.get_cmap()(sc1.norm(c)),ls="", marker="o")[0] for c in colors ]    
@@ -202,8 +189,8 @@ for p in range(5, 60, 5):
     ax3.add_artist(legend3)
 
     # save the figure with the specific perplexity
-    output_file =  os.path.join(ROOT_DIR, 'Your_results_Dir\\perp_' + str(p) + '_kmeans_errors.png')
-    plt.savefig(output_file)
+    output_file3 =  os.path.join(ROOT_DIR, 'Your_results_Dir\\perp_' + str(p) + '_kmeans_errors.png')
+    plt.savefig(output_file3)
     
     
     # -------------------------------------------------------------------------------------------------
@@ -228,9 +215,7 @@ for p in range(5, 60, 5):
     fmt = '.2f'
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
+        plt.text(j, i, format(cm[i, j], fmt), horizontalalignment="center", color="white" if cm[i, j] > thresh else "black")
 
     plt.tight_layout()
     plt.ylabel('True label')
