@@ -26,4 +26,4 @@ More specifically, the functionality of each stage is defined as follows:
 
 Adding a *minimally supervision* algorithm at the end of the clustering pipeline and defining a different computational framework the previous data pipeline is converted to a classification algorithm that enables the classification of the input fracture images according to the tungsten composition. The structure of this classification algorithm and the definition of its computational framework is schematically presented in the mext figure.
 
-<img src="Images/classificaton_pipeline_2.JPG">
+<img src="Images/classification_pipeline_2.JPG">
