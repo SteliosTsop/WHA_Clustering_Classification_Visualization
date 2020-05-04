@@ -20,3 +20,10 @@ More specifically, the functionality of each stage is defined as follows:
 2. **PCA**: a Principal Component Analysis on the feature vectors extracted by VGG allows the computation of the 50 principal components that maximize the total variance of the data. This linear-dimensionality reduction algorithm expresses each feature vector, which corresponds to a certain fracture image, with respect to 50 principal axes that maximize the total variance of the data. The algorithm enables the estimation of the "importance" of each principal component, by computing the eigenvalues of the covariance matrix of the set of feature vectors and furthermore the computation of the weight that each feature extracted by VGG has on each principal axis, by computing the eigenvectors of the covariance matrix.
  3. **t-SNE**: this algorithm performs a non-linear dimensionality reduction on the set of 50-dimensional feature vectors that is exported by PCA. It computes similarities between the data points in the 50-dimensional space and projects them onto the 2D space, according to these similarities. The final output of this stage is a 2D plot. By the end of this third part, the pipeline achieves to project the initial fracture images dataset onto data points on a 2D plot, in positions that enable clustering according to similarities of the fracture images.
 4. **k-Means**: the k-Means algorithm (Lloyd, 1982) groups the data points, exported by t-SNE into 5 clusters, according to their Euclidean distances in the 2D space. As a result, k-Means assigns a label to each data point according to the cluster that it belongs.
+
+
+## Classification Data Pipeline
+
+Adding a *minimally supervision* algorithm at the end of the clustering pipeline and defining a different computational framework the previous data pipeline is converted to a classification algorithm that enables the classification of the input fracture images according to the tungsten composition. The structure of this classification algorithm and the definition of its computational framework is schematically presented in the mext figure.
+
+<img src="Images/classificaton_pipeline_2.JPG">
