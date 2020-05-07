@@ -46,4 +46,7 @@ To this end, the weighted sum of the activation maps exported by the last convol
 Next figure presents some representative activation maps computed for different fracture images of the dataset:
 
 
+<p align="center">
+  <img src="Images/AM.jpg">
+</p>
 
