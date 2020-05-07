@@ -22,7 +22,9 @@ The main structure of the Clustering Data Pipeline is composed by 4 consecutive 
 
 Adding a *minimally supervision* algorithm at the end of the clustering pipeline and defining a different computational framework the previous data pipeline is converted to a classification algorithm that enables the classification of the input fracture images according to the tungsten composition. The structure of this classification algorithm and the definition of its computational framework is schematically presented in the mext figure.
 
-<div style="text-align:center"><img src="Images/classification_pipeline.jpg"></div>
+<p align="center">
+  <img src="Images/classification_pipeline.jpg">
+</p>
 
 The computational framework is composed of the following steps:
 
