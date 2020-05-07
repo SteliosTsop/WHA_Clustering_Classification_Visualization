@@ -6,7 +6,7 @@ The main objective of this repository is to present Unsupervised ML data pipelin
 
 The dataset that is used to evaluate the performance of the introduced algorithms is composed by 810 SEM fracture images with dimensions: 448x448. The SEM images are obtained after scanning the fracture surface of 5 different WHA samples with tungsten composition of: 90wt%, 92wt%, 95wt%, 97wt% and 99wt%. 
 
-The entire WHA dataset and the corresponding Activation Maps are published in Materials Data Facility (MDF) with DOI: 
+The entire WHA dataset and the corresponding Activation Maps are published in Materials Data Facility (MDF) with DOI: https://doi.org/10.18126/aph0-olbz
 
 The source code of the Clustering and Classification algorithms builds upon the code published at [neu_vgg16](https://github.com/arkitahara/neu_vgg16) by [Andrew Kitahara](https://github.com/arkitahara).
 
@@ -50,3 +50,11 @@ Next figure presents some representative activation maps computed for different 
   <img src="Images/AM.jpg">
 </p>
 
+### Prerequisites
+
+- Numpy
+- Matplotlib
+- Opencv for Python
+- Keras
+- Tensorflow
+- Scikit-learn
