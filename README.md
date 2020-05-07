@@ -8,6 +8,8 @@ The dataset that is used to evaluate the performance of the introduced algorithm
 
 The entire WHA dataset and the corresponding Activation Maps are published in Materials Data Facility (MDF) with DOI: 
 
+The source code of the Clustering and Classification algorithms builds upon the code published at [neu_features](https://github.com/arkitahara/neu_vgg16/blob/master/notebooks/neu_features.ipynb) by [Andrew Kitahara](https://github.com/arkitahara).
+
 ## Clustering Data Pipeline
 
 The main structure of the Clustering Data Pipeline is composed by 4 consecutive parts, where the output of each part is the input of the next (see the schematic flowchart of the pipeline in the figure below). 
