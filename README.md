@@ -35,3 +35,15 @@ The computational framework is composed of the following steps:
 3. The training data points are imported into a **k-Means + k-Nearest Neighbors** pipeline.
 4. Create a mesh grid with dimensions large enough to accommodate every training and test data point. Implementing the  **k-Nearest Neighbors** algorithm enables the classification of every grid point into one of the 5 tungsten composition labels. A colormap, where each area is assigned to a different tungsten composition label is produced.
 5. Finally, plot the test data points, with the positions predicted by the **VGG + PCA + t-SNE** pipeline, onto the colormap.
+
+
+## Visualization of the Activation Maps
+
+The objective of the Visualization.py algorithm is to identify the specific locations in the input WHA fracture images that accomondate the features that the Clustering pipeline activates in order to cluster the fracture images according to the tungsten composition. 
+
+To this end, the weighted sum of the activation maps exported by the last convolution layer of the VGG16 architecture (*"block5conv3"*) for each input image is computed. The weights of this summation are defined by the coefficients of the eigenvector that corresponds to the first Principal Component of the PCA. Summing the activation maps of this layer according to the importance of the corresponding features to the dimensionality reduction aldorithms of the clustering pipeline enables the identification of the features that the algorithm is identifying and consequently bases its efficient clustering of the WHA fracture images dataset.
+
+Next figure presents some representative activation maps computed for different fracture images of the dataset:
+
+
+
