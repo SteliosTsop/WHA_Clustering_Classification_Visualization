@@ -22,12 +22,12 @@ The main structure of the Clustering Data Pipeline is composed by 4 consecutive 
 
 Adding a *minimally supervision* algorithm at the end of the clustering pipeline and defining a different computational framework the previous data pipeline is converted to a classification algorithm that enables the classification of the input fracture images according to the tungsten composition. The structure of this classification algorithm and the definition of its computational framework is schematically presented in the mext figure.
 
-<img src="Images/classification_pipeline_2.JPG">
+<img src="Images/classification_pipeline.JPG">
 
 The computational framework is composed of the following steps:
 
-1. Initially, 90% of the WHA fracture images dataset is set as training images, while the rest 10% is set as test images.
-2. The entire dataset is imported into the **VGG - PCA - t-SNE** pipeline and the result is a 2D scatter plot. This plot is separated into a plot that contains only the training data points and another one with the test data points.
-3. The training data points, projected onto the specific locations on the 2D plot by the **VGG - PCA - t-SNE** pipeline, are imported into another pipeline constructed by k-Means and KNN algorithms.
-4. A mesh grid with dimensions large enough to accommodate every training and test data point is created and KNN enables the classification of every grid point into one of the 5 tungsten composition labels, using the training data points and their annotations. The result of this step is a colormap, where each area is assigned to a different tungsten composition label.
-5. The final step involves plotting the test data points, with the positions predicted by the **VGG - PCA - t-SNE** pipeline, onto the colormap. The label of the area that each test data point is placed defines the classification of the test point.
+1. In the WHA fracture images dataset define a train and a test sub-set.
+2. Insert the entire WHA dataset into the **VGG + PCA + t-SNE** pipeline. The resulted 2D scatter plot is separated into a **train plot** and a **test plot**.
+3. The training data points are imported into a **k-Means + k-Nearest Neighbors** pipeline.
+4. Create a mesh grid with dimensions large enough to accommodate every training and test data point. Implementing the  **k-Nearest Neighbors** algorithm enables the classification of every grid point into one of the 5 tungsten composition labels. A colormap, where each area is assigned to a different tungsten composition label is produced.
+5. Finally, plot the test data points, with the positions predicted by the **VGG + PCA + t-SNE** pipeline, onto the colormap.
