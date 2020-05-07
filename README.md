@@ -4,7 +4,7 @@ This repository presents the computer algorithms developed for the open source p
 
 The main objective of this repository is to present Unsupervised ML data pipelines that enable the clustering and the classification of SEM fracture images of WHA samples, according to their tungsten composition. Additionally, aiming to interpret the functionality of these algorithms and acquire better understanding of the internal operations that enable the efficacy of the algorithms, another algorithm that visualizes the activation maps of the last convolution layer, according to their importance on the data pipelines, is developed.
 
-The dataset that is used to evaluate the performance of the introduced algorithms is composed by 810 SEM fracture images with dimensions: 448x448. The SEM images are obtained after scanning the fracture surface of 5 different WHA samples with tungsten composition of: 90wt%, 92wt%, 95wt%, 97wt% and 99wt%. 
+The dataset that is used to evaluate the performance of the introduced algorithms is composed by 810 SEM fracture images with dimensions: 448 x 448. The SEM images are obtained after scanning the fracture surface of 5 different WHA samples with tungsten composition of: 90wt%, 92wt%, 95wt%, 97wt% and 99wt%. 
 
 The entire WHA dataset and the corresponding Activation Maps are published in Materials Data Facility (MDF) with DOI: https://doi.org/10.18126/aph0-olbz
 
@@ -43,14 +43,14 @@ The objective of the Visualization.py algorithm is to identify the specific loca
 
 To this end, the weighted sum of the activation maps exported by the last convolution layer of the VGG16 architecture (*"block5conv3"*) for each input image is computed. The weights of this summation are defined by the coefficients of the eigenvector that corresponds to the first Principal Component of the PCA. Summing the activation maps of this layer according to the importance of the corresponding features to the dimensionality reduction aldorithms of the clustering pipeline enables the identification of the features that the algorithm is identifying and consequently bases its efficient clustering of the WHA fracture images dataset.
 
-Next figure presents some representative activation maps computed for different fracture images of the dataset:
+The next figure presents some representative activation maps computed for different fracture images of the dataset:
 
 
 <p align="center">
   <img src="Images/AM.jpg">
 </p>
 
-### Prerequisites
+## Prerequisites
 
 - Numpy
 - Matplotlib
