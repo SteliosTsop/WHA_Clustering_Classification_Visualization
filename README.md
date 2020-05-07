@@ -14,7 +14,9 @@ The source code of the Clustering and Classification algorithms builds upon the 
 
 The main structure of the Clustering Data Pipeline is composed by 4 consecutive parts, where the output of each part is the input of the next (see the schematic flowchart of the pipeline in the figure below). 
 
-<img src="Images/cluster_pipeline_comments.jpg">
+<p align="center">
+  <img src="Images/cluster_pipeline_comments.jpg">
+</p>
 
 
 
