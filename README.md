@@ -1,6 +1,6 @@
 # Clustering and Classification Unsupervised ML algorithms - Visualization of Activation Maps
 
-This repository presents the computer algorithms developed for the open source publication: *"Unsupervised Machine Learning in Fractography: Evaluation and Interpretation"*
+This repository presents the computer algorithms developed for the open source publication: ["Unsupervised Machine Learning in Fractography: Evaluation and Interpretation"](https://engrxiv.org/wjtg2/)
 
 The main objective of this repository is to present Unsupervised ML data pipelines that enable the clustering and the classification of SEM fracture images of WHA samples, according to their tungsten composition. Additionally, aiming to interpret the functionality of these algorithms and acquire better understanding of the internal operations that enable the efficacy of the algorithms, another algorithm that visualizes the activation maps of the last convolution layer, according to their importance on the data pipelines, is developed.
 
